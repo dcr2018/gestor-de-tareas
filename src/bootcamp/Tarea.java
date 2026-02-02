@@ -6,16 +6,14 @@ public class Tarea {
     public String descripcion;
     public boolean completada;
 
-    public Tarea(String descripcion) {
+    public Tarea(String descripcion, int id) {
         this.descripcion = descripcion;
+        this.id = id;
         this.completada = false;
     }
 
     public void marcarComoCompletada() {
         this.completada = true;
     }
-
-    public void establecerId(int id) {
-        this.id = id;
-    }
+    
 }

@@ -11,80 +11,89 @@ public class GestorDeTareas {
         boolean salir = false;
 
         ArrayList<Tarea> listaDeTareas = new ArrayList<>();
-        listaDeTareas.add(new Tarea("Ir al supermercado"));
-        listaDeTareas.get(0).establecerId(1);
-        listaDeTareas.add(new Tarea("Lavar el auto"));
-        listaDeTareas.get(1).establecerId(2);
-        listaDeTareas.add(new Tarea("Pagar las cuentas"));
-        listaDeTareas.get(2).establecerId(3);
-        listaDeTareas.add(new Tarea("Completar las tareas de la plataforma"));
-        listaDeTareas.get(3).establecerId(4);
+        listaDeTareas.add(new Tarea("Ir al supermercado", 1));
+        listaDeTareas.add(new Tarea("Lavar el auto", 2));
+        listaDeTareas.add(new Tarea("Pagar las cuentas", 3));
+        listaDeTareas.add(new Tarea("Completar las tareas de la plataforma", 4));
 
         limpiarPantalla();
         System.out.println("(A)gregar una tarea, (M)ostrar tareas pendientes, (C)ompletar una tarea, (S)alir");
         String opcion = scanner.nextLine().trim().toLowerCase();
 
-        while(!salir) {
-            if(opcion.equals("a")) {
-
+        while (!salir) {
+            if (opcion.equals("a")) {
                 // Agregar tarea
 
                 System.out.print("Ingresa la tarea: ");
                 String descripcion = scanner.nextLine().trim();
-                listaDeTareas.add(new Tarea(descripcion));
-                listaDeTareas.get(listaDeTareas.size() - 1).establecerId(listaDeTareas.size());
+
+                Tarea ultimaTarea = listaDeTareas.stream()
+                        .max((t1, t2) -> Integer.compare(t1.id, t2.id))
+                        .orElse(null);
+                int nuevoId = ultimaTarea != null ? ultimaTarea.id + 1 : 1;
+                                
+                listaDeTareas.add(new Tarea(descripcion, nuevoId));
                 
                 limpiarPantalla();
                 System.out.println("Tarea agregada");
-                System.out.println("\n(A)gregar una tarea, (M)ostrar tareas pendientes, (C)ompletar una tarea, (S)alir");
+                System.out
+                        .println("\n(A)gregar una tarea, (M)ostrar tareas pendientes, (C)ompletar una tarea, (S)alir");
                 opcion = scanner.nextLine().trim().toLowerCase();
 
-            } else if(opcion.equals("m")) {
-                
+            } else if (opcion.equals("m")) {
                 // Mostrar tareas pendientes
-                
+
                 limpiarPantalla();
-                for(Tarea tarea : listaDeTareas) {
-                    if(!tarea.completada) {
+                for (Tarea tarea : listaDeTareas) {
+                    if (!tarea.completada) {
                         System.out.println(tarea.id + ") " + tarea.descripcion);
                     }
                 }
 
-                System.out.println("\n(A)gregar una tarea, (M)ostrar tareas pendientes, (C)ompletar una tarea, (S)alir");
+                System.out
+                        .println("\n(A)gregar una tarea, (M)ostrar tareas pendientes, (C)ompletar una tarea, (S)alir");
                 opcion = scanner.nextLine().trim().toLowerCase();
 
-            } else if(opcion.equals("c")) {
-
+            } else if (opcion.equals("c")) {
                 // Completar tarea
 
                 System.out.print("Ingrese el número de la tarea a completar: ");
-                int id = Integer.parseInt(scanner.nextLine());
-                for(Tarea tarea : listaDeTareas) {
-                    if(tarea.id == id) {
-                        tarea.marcarComoCompletada();
-                        break;
-                    }
+                try {
+                    int id = Integer.parseInt(scanner.nextLine());
+                    listaDeTareas.stream()
+                            .filter(tarea -> tarea.completada == false)
+                            .filter(tarea -> tarea.id == id)
+                            .findFirst()
+                            .ifPresentOrElse(
+                                    tarea -> {
+                                        tarea.marcarComoCompletada();
+                                        limpiarPantalla();
+                                        System.out.println("La tarea " + id + " ha sido marcada como completada.");
+                                    }, () -> {
+                                        limpiarPantalla();
+                                        System.out.println("No se encontró una tarea con el número " + id + ".");
+                                    });
+
+                    System.out.println(
+                            "\n(A)gregar una tarea, (M)ostrar tareas pendientes, (C)ompletar una tarea, (S)alir");
+                    opcion = scanner.nextLine().trim().toLowerCase();
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: debes ingresar un número.");
+                    System.out.println(
+                            "\n(A)gregar una tarea, (M)ostrar tareas pendientes, (C)ompletar una tarea, (S)alir");
+                    opcion = scanner.nextLine().trim().toLowerCase();
                 }
 
-                limpiarPantalla();
-                System.out.println("La tarea " + id + " ha sido marcada como completada.");
-                System.out.println("\n(A)gregar una tarea, (M)ostrar tareas pendientes, (C)ompletar una tarea, (S)alir");
-                opcion = scanner.nextLine().trim().toLowerCase();
-
-            } else if(opcion.equals("s")) {
-
+            } else if (opcion.equals("s")) {
                 // Salir
 
                 salir = true;
-
             } else {
-
                 // Opción no válida
 
                 System.out.println("Opción no válida. Intente de nuevo.");
                 System.out.println("(A)gregar una tarea, (M)ostrar tareas pendientes, (C)ompletar una tarea, (S)alir");
                 opcion = scanner.nextLine().trim().toLowerCase();
-                
             }
         }
         scanner.close();
@@ -92,8 +101,8 @@ public class GestorDeTareas {
 
     private static void limpiarPantalla() {
         try {
-            String wtSession = System.getenv("WT_SESSION");      // Windows Terminal
-            String comspec = System.getenv("ComSpec");          // cmd.exe
+            String wtSession = System.getenv("WT_SESSION"); // Windows Terminal
+            String comspec = System.getenv("ComSpec"); // cmd.exe
             String psModulePath = System.getenv("PSModulePath"); // PowerShell
 
             if (wtSession == null) { // No es Windows Terminal
@@ -101,7 +110,7 @@ public class GestorDeTareas {
                     // cmd clásico → usar comando cls
                     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
                 } else if (psModulePath != null) {
-                    // PowerShell clásico → usar comando Clear-Host
+                    // Windows PowerShell clásico, PowerShell clásico → usar comando Clear-Host
                     new ProcessBuilder("powershell", "-Command", "Clear-Host").inheritIO().start().waitFor();
                 } else {
                     // Otros intérpretes de comandos → usar secuencia ANSI
@@ -115,6 +124,6 @@ public class GestorDeTareas {
             }
         } catch (Exception e) {
             System.out.println("No se pudo limpiar la pantalla.\nError: " + e.getMessage());
-        }  
+        }
     }
 }

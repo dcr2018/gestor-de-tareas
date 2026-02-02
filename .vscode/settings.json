@@ -3,5 +3,50 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
-    ]
+    ],
+    "editor.semanticHighlighting.enabled": false,
+    "editor.tokenColorCustomizations": {
+        "[Default Dark Modern]": {
+            "textMateRules": [
+                {
+                    "scope": [
+                        "comment.line",
+                        "comment.block",
+                        "constant.language.java",
+                        "constant.numeric.decimal.java",
+                        "entity.name.type",
+                        "entity.name.function",
+                        "storage.type",
+                        "keyword",
+                        "variable",
+                        "keyword.control",
+                        "string.quoted.double",
+                        "meta.method.identifier.java",
+                        "meta.method.java",
+                        "meta.class.body.java",
+                        "meta.class.java",
+                        "meta.return-type",
+                        "meta.function",
+                        "meta.type.annotation",
+                        "meta.block",
+                        "punctuation.definition.parameters.begin.bracket.round.java",
+                        "punctuation.definition.parameters.end.bracket.round.java",
+                        "source.java",
+                        "storage",
+                        "storage.modifier",
+                        "storage.type",
+                        "storage.type.generic.java",
+                        "storage.type.primitive.java",
+                        "storage.type.java",
+                        "storage.type.object.array.java",
+                        "string",
+                        "variable.parameter",
+                    ],
+                    "settings": {
+                        "foreground": "#d4d4d4"
+                    }
+                }
+            ]
+        }
+    }
 }
