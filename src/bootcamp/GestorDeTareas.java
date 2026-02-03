@@ -1,6 +1,5 @@
 package bootcamp;
 
-import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -104,16 +103,17 @@ public class GestorDeTareas {
             String wtSession = System.getenv("WT_SESSION"); // Windows Terminal
             String comspec = System.getenv("ComSpec"); // cmd.exe
             String psModulePath = System.getenv("PSModulePath"); // PowerShell
+            String shell = System.getenv("SHELL"); // bash
 
             if (wtSession == null) { // No es Windows Terminal
-                if (comspec != null) {
+                if (comspec != null && shell == null) {
                     // cmd clásico → usar comando cls
                     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                } else if (psModulePath != null) {
+                } else if (psModulePath != null && shell == null) {
                     // Windows PowerShell clásico, PowerShell clásico → usar comando Clear-Host
                     new ProcessBuilder("powershell", "-Command", "Clear-Host").inheritIO().start().waitFor();
                 } else {
-                    // Otros intérpretes de comandos → usar secuencia ANSI
+                    // Git Bash y otros intérpretes de comandos → usar secuencia ANSI
                     System.out.print("\033[H\033[2J");
                     System.out.flush();
                 }
