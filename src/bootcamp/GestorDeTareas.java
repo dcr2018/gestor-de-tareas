@@ -2,6 +2,8 @@ package bootcamp;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
+import java.io.PrintStream;
 
 /**
  * Clase principal del programa. En esta clase ocurre la gestión de las tareas, incluyendo la presentación del 
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 public class GestorDeTareas {
 
     // static String opcion;
-    static Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in, "cp850");
 
     /**
      * Método principal del programa. Realiza la gestión de las tareas. El usuario puede agregar tareas, mostrar 
@@ -18,6 +20,12 @@ public class GestorDeTareas {
      * @param args Argumentos de línea de comandos (no se utilizan en este programa).
      */
     public static void main(String[] args) {
+        try {
+            System.setOut(new PrintStream(System.out, true, "cp850"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         boolean salir = false;
         String opcion;
 
@@ -26,6 +34,7 @@ public class GestorDeTareas {
         listaDeTareas.add(new Tarea("Lavar el auto", "media", 2));
         listaDeTareas.add(new Tarea("Pagar las cuentas", "media", 3));
         listaDeTareas.add(new Tarea("Completar las tareas de la plataforma","media", 4));
+        listaDeTareas.add(new Tarea("Ir a comprar atún","media", 5));
 
         String bienvenida = "Bienvenida/o al Gestor de Tareas. Ingrese i para ver las instrucciones.";
         System.out.println(bienvenida);
