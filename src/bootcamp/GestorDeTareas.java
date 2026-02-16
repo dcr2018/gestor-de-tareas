@@ -94,7 +94,7 @@ public class GestorDeTareas {
                 mostrarMenu();
 
             }
-            // Completar tarea
+            // Marcar tarea como completa
             else if (opcion.equals("m")) {
                 if(listaDeTareas.stream().filter(tarea -> !tarea.completada).count() == 0) {
                     limpiarPantalla();
