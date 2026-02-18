@@ -2,7 +2,6 @@ package bootcamp;
 
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.nio.charset.StandardCharsets;
 import java.io.PrintStream;
 
 /**
