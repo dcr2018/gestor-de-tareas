@@ -18,14 +18,46 @@ public class Tarea {
      * @param id          el identificador único de la tarea
      */
     public Tarea(String descripcion, String prioridad, int id) {
-        this.descripcion = descripcion;
-        this.prioridad = prioridad;
-        this.id = id;
-        this.completada = false;
+        setCompletada(false);
+        setDescripcion(descripcion);
+        setPrioridad(prioridad);
+        setId(id);
+        
     }
 
-    public void marcarComoCompletada() {
-        this.completada = true;
-    }
+    public boolean isCompletada() {
+		return completada;
+	}
+
+	public void setCompletada(boolean completada) {
+		this.completada = completada;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getPrioridad() {
+		return prioridad;
+	}
+
+	public void setPrioridad(String prioridad) {
+		this.prioridad = prioridad;
+	}
+
+	
     
 }
+

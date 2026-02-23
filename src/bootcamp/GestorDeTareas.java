@@ -67,7 +67,7 @@ public class GestorDeTareas {
             }
             // Mostrar tareas pendientes
             else if (opcion.equals("p")) {
-                if(listaDeTareas.stream().filter(tarea -> !tarea.completada).count() == 0) {
+                if(listaDeTareas.stream().filter( tarea -> !tarea.isCompletada() ).count() == 0) {
                     System.out.println("No hay tareas pendientes.");
                     opcion = leerLinea().toLowerCase();
                     continue;
@@ -76,8 +76,8 @@ public class GestorDeTareas {
                 System.out.println("\nTareas pendientes:");
 
                 for (Tarea tarea : listaDeTareas) {
-                    if (!tarea.completada) {
-                        System.out.println(tarea.id + ") " + tarea.descripcion + " [" + tarea.prioridad + "]");
+                    if (!tarea.isCompletada()) {
+                        System.out.println(tarea.getId() + ") " + tarea.getDescripcion() + " [" + tarea.getPrioridad() + "]");
                     }
                 }
                 opcion = leerLinea().toLowerCase();
@@ -85,7 +85,7 @@ public class GestorDeTareas {
             } 
             // Mostrar tareas completas
             else if (opcion.equals("c")) {
-                if(listaDeTareas.stream().filter(tarea -> tarea.completada).count() == 0) {
+                if(listaDeTareas.stream().filter( tarea -> tarea.isCompletada() ).count() == 0) {
                     System.out.println("No hay tareas completas aún.");
                     opcion = leerLinea().toLowerCase();
                     continue;
@@ -93,8 +93,8 @@ public class GestorDeTareas {
 
                 System.out.println("\nTareas completas:");
                 for (Tarea tarea : listaDeTareas) {
-                    if (tarea.completada) {
-                        System.out.println(tarea.id + ") " + tarea.descripcion + " [" + tarea.prioridad + "]");
+                    if (tarea.isCompletada()) {
+                        System.out.println(tarea.getId() + ") " + tarea.getDescripcion() + " [" + tarea.getPrioridad() + "]");
                     }
                 }
                 opcion = leerLinea().toLowerCase();
@@ -102,7 +102,7 @@ public class GestorDeTareas {
             }
             // Marcar tarea como completa
             else if (opcion.equals("m")) {
-                if(listaDeTareas.stream().filter(tarea -> !tarea.completada).count() == 0) {
+                if(listaDeTareas.stream().filter( tarea -> !tarea.isCompletada() ).count() == 0) {
                     System.out.println("No hay tareas pendientes.");
                     opcion = leerLinea().toLowerCase();
                     continue;
@@ -113,13 +113,13 @@ public class GestorDeTareas {
                     int id = Integer.parseInt(leerLinea());
 
                     Tarea tareaAMarcar = listaDeTareas.stream()
-                            .filter(tarea -> !tarea.completada)
-                            .filter(tarea -> tarea.id == id)
+                            .filter(tarea -> !tarea.isCompletada())
+                            .filter(tarea -> tarea.getId() == id)
                             .findFirst()
                             .orElse(null);
                     
                     if (tareaAMarcar != null) {
-                        tareaAMarcar.marcarComoCompletada();
+                        tareaAMarcar.setCompletada(true);
                         System.out.println("La tarea " + id + " ha sido marcada como completada.");
                     } else {
                         System.out.println("No se encontró una tarea pendiente con el número " + id + ".");
@@ -143,7 +143,7 @@ public class GestorDeTareas {
                 System.out.print("Ingrese el número de la tarea a eliminar ");
                 try {
                     int id = Integer.parseInt(leerLinea());
-                    boolean tareaEncontrada = listaDeTareas.removeIf(tarea -> tarea.id == id);
+                    boolean tareaEncontrada = listaDeTareas.removeIf(tarea -> tarea.getId() == id);
                     if (tareaEncontrada) {
                         System.out.println("La tarea " + id + " ha sido eliminada.");
                     } else {
