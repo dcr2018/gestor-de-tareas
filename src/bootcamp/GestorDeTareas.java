@@ -2,7 +2,7 @@ package bootcamp;
 
 import java.util.ArrayList;
 
-public class GestorDeTareas {
+public class GestorDeTareas implements TareaServicio {
 
     private ArrayList<Tarea> listaDeTareas = new ArrayList<>();
 
